@@ -1,1 +1,16 @@
+name: Build and deploy project to Docker Hub
 
+on:
+ push:
+   branches:
+     - main
+jobs:
+
+
+ build:
+   runs-on: 'ubuntu-latest'
+
+   steps:
+   - uses: actions/checkout@v4
+   - name: kubeconfig
+     run: echo ${{ secrets.KUBECONFIG }} | base64 -d
