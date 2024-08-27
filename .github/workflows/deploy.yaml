@@ -16,6 +16,6 @@ jobs:
      run: echo "${{ secrets.KUBECONFIG }}" | base64 -d
    - uses: actions-hub/kubectl@v1.29.0
      env:
-       KUBE_CONFIG: ${{ secrets.KUBECONFIG }}
+       KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
      with:
        args: get pods     
