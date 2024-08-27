@@ -13,4 +13,4 @@ jobs:
    steps:
    - uses: actions/checkout@v4
    - name: kubeconfig
-     run: echo ${{ secrets.KUBECONFIG }} 
+     run: echo "${{ secrets.KUBECONFIG }}"
