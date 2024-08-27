@@ -12,10 +12,8 @@ jobs:
 
    steps:
    - uses: actions/checkout@v4
-   - name: kubeconfig
-     run: echo "${{ secrets.KUBECONFIG }}" | base64 -d
    - uses: actions-hub/kubectl@v1.29.0
      env:
        KUBE_CONFIG: ${{ secrets.KUBECONFIG }}
      with:
-       args: get pods     
+       args: rollout restart deployment/nginx
