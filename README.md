@@ -26,7 +26,7 @@ This job restarts the Kubernetes deployment to reflect the newly built Docker im
 - **Runs-on**: `ubuntu-latest`
 - **Steps**:
   - **Checkout Code**: Uses `actions/checkout@v4` to pull the latest code from the repository.
-  - **Restart Kubernetes Deployment**: Uses `actions-hub/kubectl@v1.29.0` to restart the Kubernetes deployment named `nginx` by using the `rollout restart deployment/nginx` command.
+  - **Restart Kubernetes Deployment**: Uses `actions-hub/kubectl@v1.29.0` to restart the Kubernetes deployment named `app` by using the `rollout restart deployment/app` command.
 
 ### Environment Variables
 - **Docker Hub Credentials**:
