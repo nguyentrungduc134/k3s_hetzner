@@ -51,7 +51,7 @@ This will display the node scaling activity in response to the increased demand.
 
 
 
-## CICD
+## 2. CICD
 This GitHub Actions workflow is designed to automate the process of building and deploying a Dockerized application to Docker Hub, followed by restarting a Kubernetes deployment. The workflow is triggered on every push to the `main` branch.
 
 ### Workflow Details
