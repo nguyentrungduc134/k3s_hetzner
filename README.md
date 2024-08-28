@@ -1,6 +1,6 @@
 # K3S Hetzner
 
-## 2. Terraform 
+## 1. Terraform 
    [Link](https://github.com/nguyentrungduc134/k3s_hetzner/tree/main/terraform)
 ## 2. Installing Grafana Monitoring
 
