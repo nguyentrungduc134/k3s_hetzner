@@ -54,8 +54,6 @@ Once the service type is set to NodePort, you can access the Grafana dashboard f
 ## Conclusion
 You have now installed Grafana and Prometheus for monitoring your Kubernetes cluster. By following the steps outlined in this guide, you can access the Grafana dashboard to visualize and monitor metrics collected by Prometheus.
 
-## Troubleshooting
-If you encounter any issues during the installation, verify that Helm is correctly installed and configured, and ensure your Kubernetes cluster is running and accessible.
 ## 3. Steps to Test Pod Autoscaling
 
 ###  Set Up Horizontal Pod Autoscaling (HPA)
