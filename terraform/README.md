@@ -128,7 +128,7 @@ This setup ensures that your Kubernetes cluster is deployed with the appropriate
    ```bash
    export KUBECONFIG=/home/rama/hcloud/terraform2/config.yaml
    ```
-   Encode the key
+   Encode the key, copy it and put to repository secret KUBECONFIG
    ```bash
    cat config.yaml | base64
    ```
