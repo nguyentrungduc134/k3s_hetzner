@@ -53,7 +53,8 @@ Before deploying the Kubernetes cluster, you need to create a MicroOS snapshot u
    ```
 
 2. **SSH Keys**:
-
+   Create ssh key id_rsa in current directory
+   ssh-keygen -t ed25519
    Ensure that the `ssh_public_key` and `ssh_private_key` fields in the Terraform configuration point to your SSH key files.
 
 3. **Node Pools**:
