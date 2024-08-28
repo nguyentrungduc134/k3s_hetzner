@@ -80,6 +80,37 @@ Before deploying the Kubernetes cluster, you need to create a MicroOS snapshot u
 
 2. **Plan and Apply**:
 
+Here's the updated section of your README file, including the `dev.tfvars` configuration:
+
+---
+
+## Dev Environment Variables
+
+Before deploying the Terraform configuration, ensure you have a `dev.tfvars` file with the following variables defined:
+
+```hcl
+docker_username = "your_docker_username"
+docker_password = "your_docker_password"
+master_nodes    = 3
+nodes           = 1
+min_nodes       = 1
+max_nodes       = 5
+```
+
+- **`docker_username`**: Your Docker Hub username.
+- **`docker_password`**: Your Docker Hub password.
+- **`master_nodes`**: Number of master nodes in the Kubernetes control plane.
+- **`nodes`**: Number of agent nodes in the Kubernetes cluster.
+- **`min_nodes`**: Minimum number of nodes for autoscaling.
+- **`max_nodes`**: Maximum number of nodes for autoscaling.
+
+Save this configuration in a `dev.tfvars` file and include it in your `terraform apply` command as follows:
+
+```bash
+terraform apply --var-file=dev.tfvars -var="hcloud_token=${{ secrets.HCLOUD_TOKEN }}" --auto-approve
+```
+
+This setup ensures that your Kubernetes cluster is deployed with the appropriate scaling configurations and Docker credentials.
    Review the Terraform plan and apply the configuration:
 
    ```bash
