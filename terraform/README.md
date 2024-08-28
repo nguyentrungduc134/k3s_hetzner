@@ -1,78 +1,104 @@
-# README for Terraform Hetzner Kubernetes Cluster Deployment
+# README for Terraform Hetzner Kubernetes Cluster Deployment with MicroOS Snapshot
 
 ## Overview
 
-This Terraform configuration file is designed to deploy a Kubernetes cluster on Hetzner Cloud using the `kube-hetzner` module. The configuration includes options for setting up control plane and agent node pools, configuring load balancers, and deploying Helm charts for additional services such as Nginx and CSI Driver SMB.
+This README outlines the steps required to deploy a Kubernetes cluster on Hetzner Cloud using Terraform. The setup involves creating a MicroOS snapshot, configuring Terraform files, and deploying the cluster. The configuration includes node pools, load balancers, and integration with Helm for additional services like Nginx and CSI Driver SMB.
 
 ## Prerequisites
 
-- **Terraform**: Ensure that Terraform is installed and that your environment meets the required Terraform version (`>= 1.5.0`).
-- **Hetzner API Token**: Obtain an API token with `Read & Write` permissions from your Hetzner project. You can either set this token directly in the Terraform file or as an environment variable (`TF_VAR_hcloud_token`).
-- **SSH Key Pair**: A valid SSH key pair is required for accessing the nodes.
+- **Terraform**: Ensure that Terraform is installed and meets the required version (`>= 1.5.0`).
+- **Packer**: Required for creating the MicroOS snapshot.
+- **Hetzner API Token**: Obtain an API token with `Read & Write` permissions from your Hetzner project.
+- **SSH Key Pair**: A valid SSH key pair for accessing the nodes.
+- **Packer**: Install [Packer](https://www.packer.io/) for building the MicroOS snapshot.
 
-## Configuration
+## Steps to Deploy
 
-### 1. Hetzner API Token
+### 1. Create MicroOS Snapshot
 
-You can specify your Hetzner API token in two ways:
-- **In the Terraform file**: Modify the `hcloud_token` in the `locals` block.
-- **As an environment variable**: Set the `TF_VAR_hcloud_token` in your shell environment:
+Before deploying the Kubernetes cluster, you need to create a MicroOS snapshot using Packer.
 
-  ```bash
-  export TF_VAR_hcloud_token=xxxxxxxxxxx
-  ```
+1. Download the Packer template for MicroOS snapshots:
 
-### 2. SSH Keys
+   ```bash
+   curl -sL https://raw.githubusercontent.com/kube-hetzner/terraform-hcloud-kube-hetzner/master/packer-template/hcloud-microos-snapshots.pkr.hcl -o hcloud-microos-snapshots.pkr.hcl
+   ```
 
-The SSH keys used to access the nodes should be specified in the configuration:
-- **Public Key**: The `ssh_public_key` points to your public SSH key file (`id_rsa.pub`).
-- **Private Key**: The `ssh_private_key` points to your private SSH key file (`id_rsa`).
+2. Set your Hetzner Cloud API token:
 
-### 3. Node Pools
+   ```bash
+   export HCLOUD_TOKEN="your_hcloud_token"
+   ```
 
-This configuration sets up multiple node pools:
-- **Control Plane Node Pools**: Defined under `control_plane_nodepools`, specifying the server type, location, and other options.
-- **Agent Node Pools**: Defined under `agent_nodepools`, specifying the server type, location, and other options.
-- **Autoscaler Node Pools**: Automatically scales the nodes based on the load, defined under `autoscaler_nodepools`.
+3. Initialize the Packer template:
 
-### 4. Load Balancer
+   ```bash
+   packer init hcloud-microos-snapshots.pkr.hcl
+   ```
 
-A load balancer is configured using the `load_balancer_type` and `load_balancer_location` parameters. Ensure that these match your requirements for handling traffic.
+4. Build the MicroOS snapshot:
 
-### 5. Additional Configurations
+   ```bash
+   packer build hcloud-microos-snapshots.pkr.hcl
+   ```
 
-- **Nginx Ingress Controller**: Customize the Nginx Ingress controller using the `nginx_values` block.
-- **CSI Driver SMB**: Configure the CSI Driver SMB for persistent storage using the `csi_driver_smb_values` block.
-- **DNS Servers**: Customize DNS servers for the cluster.
+### 2. Configure Terraform
 
-### 6. Provider Configuration
+1. **Hetzner API Token**: 
 
-The Hetzner Cloud provider is configured using the API token specified either in the Terraform file or as an environment variable.
+   Set your Hetzner API token either directly in the Terraform file or as an environment variable:
 
-## Usage
+   ```bash
+   export TF_VAR_hcloud_token=xxxxxxxxxxx
+   ```
 
-1. **Initialize Terraform**: Run `terraform init` to initialize the configuration.
+2. **SSH Keys**:
 
-2. **Plan the Deployment**: Use `terraform plan` to preview the changes Terraform will make to your infrastructure.
+   Ensure that the `ssh_public_key` and `ssh_private_key` fields in the Terraform configuration point to your SSH key files.
 
-3. **Apply the Configuration**: Deploy the infrastructure by running:
+3. **Node Pools**:
+
+   Customize the `control_plane_nodepools`, `agent_nodepools`, and `autoscaler_nodepools` in the Terraform configuration according to your needs.
+
+4. **Load Balancer**:
+
+   Configure the load balancer settings, including type and location, in the Terraform configuration.
+
+5. **Helm Values**:
+
+   Customize Helm values for additional services like Nginx and CSI Driver SMB if needed.
+
+### 3. Initialize and Apply Terraform
+
+1. **Initialize Terraform**:
+
+   Run the following command to initialize the Terraform environment:
+
+   ```bash
+   terraform init
+   ```
+
+2. **Plan and Apply**:
+
+   Review the Terraform plan and apply the configuration:
 
    ```bash
    terraform apply --var-file=dev.tfvars -auto-approve
    ```
 
-4. **Access the Cluster**: The `kubeconfig` for the cluster is output by the module and can be used to interact with the Kubernetes cluster.
+3. **Access the Kubernetes Cluster**:
+
+   The `kubeconfig` file output by Terraform can be used to interact with your Kubernetes cluster.
 
 ## Output
 
-- **Kubeconfig**: The kubeconfig file required to access your Kubernetes cluster is provided as a sensitive output.
+- **Kubeconfig**: The configuration file needed to access your Kubernetes cluster.
 
-## Notes
+## Security Considerations
 
-- **Security**: Ensure that your API token and SSH keys are stored securely and not hard-coded in your files.
-- **Customization**: Modify the provided example configurations (e.g., node pools, load balancer, Nginx, etc.) to fit your specific use case.
-- **Monitoring**: Consider integrating monitoring tools such as Prometheus and Grafana for better observability of your Kubernetes cluster.
+- Keep your Hetzner API token and SSH keys secure.
+- Customize the firewall rules and load balancer settings to match your security requirements.
 
 ## Conclusion
 
-This Terraform configuration provides a robust setup for deploying a Kubernetes cluster on Hetzner Cloud with customizable options for node pools, load balancing, and additional services. By following the steps outlined, you can quickly and efficiently set up and manage your infrastructure on Hetzner.
+This guide provides a complete walkthrough for deploying a Kubernetes cluster on Hetzner Cloud, starting from creating a MicroOS snapshot to configuring and applying Terraform. By following these steps, you can efficiently set up a scalable and secure Kubernetes environment tailored to your specific needs.
