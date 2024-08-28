@@ -51,8 +51,6 @@ Once the service type is set to NodePort, you can access the Grafana dashboard f
   - **Username:** `admin`
   - **Password:** `prom-operator`
 
-## Conclusion
-You have now installed Grafana and Prometheus for monitoring your Kubernetes cluster. By following the steps outlined in this guide, you can access the Grafana dashboard to visualize and monitor metrics collected by Prometheus.
 
 ## 3. Steps to Test Pod Autoscaling
 
