@@ -37,3 +37,4 @@ jobs:
        KUBE_CONFIG: ${{ secrets.KUBECONFIG }}
      with:
        args: rollout restart deployment/app
+ 
