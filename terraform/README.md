@@ -1,4 +1,4 @@
-# README for Terraform Hetzner Kubernetes Cluster Deployment with MicroOS Snapshot
+# Terraform Hetzner Kubernetes Cluster Deployment with MicroOS Snapshot
 
 ## Overview
 
