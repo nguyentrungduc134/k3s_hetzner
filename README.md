@@ -59,6 +59,8 @@ kubectl edit service/prometheus-grafana
 - Save and exit the editor.
 
 #### 5. Access Grafana
+Get node public IP:
+kubectl get node
 Once the service type is set to NodePort, you can access the Grafana dashboard from your browser:
 
 - Open your web browser and go to `http://<your-k3s-node-ip>:<nodeport>/login`.
