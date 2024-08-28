@@ -125,10 +125,16 @@ This setup ensures that your Kubernetes cluster is deployed with the appropriate
    terraform output kubeconfig>config.yaml
    ```
    Delete the first and last line of config.yaml
-   
+   Export config to use in command line
    ```bash
    export KUBECONFIG=/home/rama/hcloud/terraform2/config.yaml
    ```
+   Restart auto-scaler and metrics-server
+   ```bash
+   kubectl rollout restart deployment/cluster-autoscaler -n kube-system
+   kubectl rollout restart deployment/metrics-server -n kube-system
+   ```
+
    Encode the key, copy it and put to repository secret KUBECONFIG
    ```bash
    cat config.yaml | base64
