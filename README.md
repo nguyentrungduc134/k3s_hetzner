@@ -67,7 +67,7 @@ Once the service type is set to NodePort, you can access the Grafana dashboard f
 - Use the following default credentials to log in:
   - **Username:** `admin`
   - **Password:** `prom-operator`
-
+![image](https://github.com/user-attachments/assets/875ca5f7-d87f-4434-9b0d-297283d353d2)
 
 ## 3. Steps to Test Pod Autoscaling
 
