@@ -42,7 +42,20 @@ To access Grafana externally, you need to modify the Grafana service to use a No
 kubectl edit service/prometheus-grafana
 ```
 
-- Locate the `type` field and change its value from `ClusterIP` to `NodePort`.
+- Locate the `type` field and change its value from `ClusterIP` to `NodePort` and set     nodePort: 30007
+```bash
+   ports:
+  - name: http-web
+    port: 80
+    protocol: TCP
+    nodePort: 30007
+    targetPort: 3000
+  selector:
+    app.kubernetes.io/instance: prometheus
+    app.kubernetes.io/name: grafana
+  sessionAffinity: None
+  type: NodePort
+```
 - Save and exit the editor.
 
 #### 5. Access Grafana
