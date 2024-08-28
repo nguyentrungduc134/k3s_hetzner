@@ -120,6 +120,14 @@ This setup ensures that your Kubernetes cluster is deployed with the appropriate
 3. **Access the Kubernetes Cluster**:
 
    The `kubeconfig` file output by Terraform can be used to interact with your Kubernetes cluster.
+   ```bash
+   terraform output kubeconfig>config.yaml
+   ```
+   Delete the first and last line of config.yaml
+   
+   ```bash
+   export KUBECONFIG=/home/rama/hcloud/terraform2/config.yaml
+   ```
 
 ## Output
 
