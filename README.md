@@ -2,7 +2,7 @@
 
 ## 1. Steps to Test Pod Autoscaling
 
-### 1. Set Up Horizontal Pod Autoscaling (HPA)
+###  Set Up Horizontal Pod Autoscaling (HPA)
 Use the following command to create an HPA for your deployment:
 
 ```bash
@@ -13,7 +13,7 @@ kubectl autoscale deployment app --cpu-percent=50 --min=1 --max=10
 - **`--min=1`**: The minimum number of pods to run.
 - **`--max=10`**: The maximum number of pods that can be created.
 
-### 2. Get the Cluster IP of the Service
+###  Get the Cluster IP of the Service
 Retrieve the Cluster IP of the service associated with your deployment:
 
 ```bash
@@ -22,7 +22,7 @@ kubectl get services
 
 Identify the Cluster IP of the `app` service from the output.
 
-### 3. Simulate Load on the Application
+###  Simulate Load on the Application
 Use a load generator to simulate traffic to the `app` service. Replace `Cluster-IP` with the actual IP address obtained in the previous step:
 
 ```bash
@@ -31,7 +31,7 @@ kubectl run -i --tty load-generator --rm --image=busybox:1.28 --restart=Never --
 
 - This command runs a `busybox` container that continuously sends HTTP requests to the `/health` endpoint of the `app` service, generating a high load.
 
-### 4. Monitor Horizontal Pod Autoscaling
+###  Monitor Horizontal Pod Autoscaling
 In a separate terminal, monitor the HPA as it adjusts the number of pods:
 
 ```bash
@@ -40,7 +40,7 @@ kubectl get hpa --watch
 
 This command will show the scaling activity in real-time.
 
-### 5. Monitor Node Scaling (If Applicable)
+###  Monitor Node Scaling (If Applicable)
 If your cluster supports dynamic node scaling, you can also monitor the node count as the load increases:
 
 ```bash
@@ -49,8 +49,6 @@ kubectl get node --watch
 
 This will display the node scaling activity in response to the increased demand.
 
-## Conclusion
-By following these steps, you can effectively test and observe the autoscaling behavior of your Kubernetes deployment. The Horizontal Pod Autoscaler will automatically adjust the number of running pods based on CPU utilization, ensuring your application can handle varying levels of traffic.
 
 
 ## CICD
