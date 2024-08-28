@@ -1,6 +1,6 @@
 # K3S Hetzner
 
-## 2. README for Installing Grafana Monitoring
+## 2. Installing Grafana Monitoring
 
 ### Overview
 This guide provides instructions to install and set up Grafana monitoring in a Kubernetes cluster using Helm. You will use the `k3s-monitoring` repository to deploy Prometheus and Grafana with pre-configured settings.
