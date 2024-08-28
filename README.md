@@ -45,5 +45,3 @@ Ensure the following secrets are set up in your GitHub repository:
 1. **Push Changes**: Make sure your changes are pushed to the `main` branch.
 2. **Monitor Workflow**: The workflow will automatically build and deploy your Dockerized application, then restart the relevant Kubernetes deployment.
 
-## Conclusion
-This workflow automates the process of building and deploying your application, ensuring that your Kubernetes deployment is always up-to-date with the latest Docker image. By leveraging GitHub Actions, Docker, and Kubernetes, it ensures a seamless CI/CD pipeline.
