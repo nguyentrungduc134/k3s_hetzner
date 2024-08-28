@@ -107,7 +107,7 @@ max_nodes       = 5
 Save this configuration in a `dev.tfvars` file and include it in your `terraform apply` command as follows:
 
 ```bash
-terraform apply --var-file=dev.tfvars -var="hcloud_token=xxxxxx" --auto-approve
+terraform apply --var-file=dev.tfvars -var hcloud_token=xxxxxxx
 ```
 
 This setup ensures that your Kubernetes cluster is deployed with the appropriate scaling configurations and Docker credentials.
