@@ -45,3 +45,65 @@ Ensure the following secrets are set up in your GitHub repository:
 1. **Push Changes**: Make sure your changes are pushed to the `main` branch.
 2. **Monitor Workflow**: The workflow will automatically build and deploy your Dockerized application, then restart the relevant Kubernetes deployment.
 
+# README for Pod Autoscaling Test
+
+## Overview
+This guide provides a step-by-step process to test pod autoscaling in a Kubernetes environment. By following these instructions, you will simulate load on a Kubernetes deployment and observe how the Horizontal Pod Autoscaler (HPA) automatically scales the pods in response to the increased load.
+
+## Prerequisites
+- A running Kubernetes cluster.
+- `kubectl` installed and configured to interact with your cluster.
+- A deployed Kubernetes application (`app` deployment) that you want to autoscale.
+
+## Steps to Test Pod Autoscaling
+
+### 1. Set Up Horizontal Pod Autoscaling (HPA)
+Use the following command to create an HPA for your deployment:
+
+```bash
+kubectl autoscale deployment app --cpu-percent=50 --min=1 --max=10
+```
+
+- **`--cpu-percent=50`**: The HPA will scale the deployment when the average CPU usage across all pods exceeds 50%.
+- **`--min=1`**: The minimum number of pods to run.
+- **`--max=10`**: The maximum number of pods that can be created.
+
+### 2. Get the Cluster IP of the Service
+Retrieve the Cluster IP of the service associated with your deployment:
+
+```bash
+kubectl get services
+```
+
+Identify the Cluster IP of the `app` service from the output.
+
+### 3. Simulate Load on the Application
+Use a load generator to simulate traffic to the `app` service. Replace `Cluster-IP` with the actual IP address obtained in the previous step:
+
+```bash
+kubectl run -i --tty load-generator --rm --image=busybox:1.28 --restart=Never -- /bin/sh -c "while sleep 0.0000000000000001; do wget -q -O- http://Cluster-IP:8080/health; done"
+```
+
+- This command runs a `busybox` container that continuously sends HTTP requests to the `/health` endpoint of the `app` service, generating a high load.
+
+### 4. Monitor Horizontal Pod Autoscaling
+In a separate terminal, monitor the HPA as it adjusts the number of pods:
+
+```bash
+kubectl get hpa --watch
+```
+
+This command will show the scaling activity in real-time.
+
+### 5. Monitor Node Scaling (If Applicable)
+If your cluster supports dynamic node scaling, you can also monitor the node count as the load increases:
+
+```bash
+kubectl get node --watch
+```
+
+This will display the node scaling activity in response to the increased demand.
+
+## Conclusion
+By following these steps, you can effectively test and observe the autoscaling behavior of your Kubernetes deployment. The Horizontal Pod Autoscaler will automatically adjust the number of running pods based on CPU utilization, ensuring your application can handle varying levels of traffic.
+
