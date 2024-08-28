@@ -36,4 +36,4 @@ jobs:
      env:
        KUBE_CONFIG: ${{ secrets.KUBECONFIG }}
      with:
-       args: rollout restart deployment/nginx
+       args: rollout restart deployment/app
