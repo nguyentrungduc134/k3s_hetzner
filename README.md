@@ -1,4 +1,4 @@
-# README for Build and Deploy Workflow to Docker Hub
+# K3S Hetzner
 
 ## Workflows
 This GitHub Actions workflow is designed to automate the process of building and deploying a Dockerized application to Docker Hub, followed by restarting a Kubernetes deployment. The workflow is triggered on every push to the `main` branch.
