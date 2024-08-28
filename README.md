@@ -1,6 +1,6 @@
 # K3S Hetzner
 
-## Steps to Test Pod Autoscaling
+## 1. Steps to Test Pod Autoscaling
 
 ### 1. Set Up Horizontal Pod Autoscaling (HPA)
 Use the following command to create an HPA for your deployment:
