@@ -30,7 +30,7 @@ helm repo add prometheus-community https://prometheus-community.github.io/helm-c
 Install Prometheus and Grafana using Helm. The `kube-prometheus-stack` Helm chart will deploy both Prometheus and Grafana with pre-configured settings provided in the `kube-prometheus-stack-values.yaml` file:
 
 ```bash
-helm upgrade --install prometheus prometheus-community/kube-prometheus-stack --version 39.13.3 --values kube-prometheus-stack-values.yaml
+helm upgrade --install prometheus prometheus-community/kube-prometheus-stack --version 61.9.0 
 ```
 
 #### 4. Edit the Grafana Service to Use a NodePort
@@ -80,7 +80,7 @@ Identify the Cluster IP of the `app` service from the output.
 Use a load generator to simulate traffic to the `app` service. Replace `Cluster-IP` with the actual IP address obtained in the previous step:
 
 ```bash
-kubectl run -i --tty load-generator --rm --image=busybox:1.28 --restart=Never -- /bin/sh -c "while sleep 0.0000000000000001; do wget -q -O- http://Cluster-IP:8080/health; done"
+kubectl run load-generator   --image=williamyeh/hey:latest   --restart=Never -- -c 1000 -q 5 -z 60m  http://Cluster-IP:8080
 ```
 
 - This command runs a `busybox` container that continuously sends HTTP requests to the `/health` endpoint of the `app` service, generating a high load.
