@@ -116,8 +116,67 @@ This setup ensures that your Kubernetes cluster is deployed with the appropriate
    ```bash
    terraform apply --var-file=dev.tfvars -auto-approve
    ```
+### **3. Modules and Setup**
 
-3. **Access the Kubernetes Cluster**:
+#### **a. MongoDB Installation**
+
+The MongoDB module is responsible for deploying MongoDB in the cluster with a NodePort service.
+
+```hcl
+module "mongodb" {
+  source = "./modules/mongodb/"
+  
+  mongodb_config = {
+    volume_size = "300Gi"
+  }
+
+  depends_on = [module.kube-hetzner]
+}
+```
+
+- **Service Type:** NodePort
+- **Volume Size:** 300Gi (can be adjusted in the configuration)
+- **Dependency:** The module depends on the K3S cluster being available (`module.kube-hetzner`).
+
+#### **b. Redis Installation**
+
+The Redis module sets up Redis with a LoadBalancer service for external access.
+
+```hcl
+module "redis" {
+  source = "./modules/redis/"
+  
+  redis_config = {
+    volume_size = "100Gi"
+  }
+
+  depends_on = [module.kube-hetzner]
+}
+```
+
+- **Service Type:** LoadBalancer
+- **Volume Size:** 100Gi (modifiable in the configuration)
+- **Dependency:** The Redis module also relies on the K3S cluster availability (`module.kube-hetzner`).
+
+#### **c. Application Deployment**
+
+The application module is deployed after the cluster resources are provisioned. This module will handle the deployment of the application and any related resources.
+
+```hcl
+module "app" {
+  source = "./modules/app/"
+  
+  depends_on = [module.kube-hetzner]
+}
+```
+
+- **Service Type:** The configuration inside the module will determine the type of service (NodePort or LoadBalancer).
+- **Dependency:** The application deployment depends on the availability of the K3S cluster (`module.kube-hetzner`).
+
+---
+
+
+4. **Access the Kubernetes Cluster**:
 
    The `kubeconfig` file output by Terraform can be used to interact with your Kubernetes cluster.
    ```bash
