@@ -8,6 +8,7 @@ This README outlines the steps required to deploy a Kubernetes cluster on Hetzne
 
 - **Terraform**: Ensure that Terraform is installed and meets the required version (`>= 1.5.0`).
 - **Packer**: Required for creating the MicroOS snapshot.
+- **Helm**: Required for deploying MongoDB and Redis in cluster.
 - **Hetzner API Token**: Obtain an API token with `Read & Write` permissions from your Hetzner project.
 - **SSH Key Pair**: A valid SSH key pair for accessing the nodes.
 - **Packer**: Install [Packer](https://www.packer.io/) for building the MicroOS snapshot.
