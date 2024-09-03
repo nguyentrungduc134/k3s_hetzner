@@ -42,7 +42,7 @@ Identify the Cluster IP of the `app` service from the output.
 Use a load generator to simulate traffic to the `app` service. Replace `Cluster-IP` with the actual IP address obtained in the previous step:
 
 ```bash
-kubectl run load-generator   --image=williamyeh/hey:latest   --restart=Never -- -c 1000 -q 5 -z 60m  http://Cluster-IP:8080
+kubectl run load-generator   --image=williamyeh/hey:latest   --restart=Never -- -c 1000 -q 5 -z 60m  http://Cluster-IP:8080/health
 ```
 
 - This command runs a `busybox` container that continuously sends HTTP requests to the `/health` endpoint of the `app` service, generating a high load.
