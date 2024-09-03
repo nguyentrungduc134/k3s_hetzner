@@ -3,62 +3,9 @@
 ## 1. Terraform 
    [Link](https://github.com/nguyentrungduc134/k3s_hetzner/tree/main/terraform)
 ## 2. Installing Grafana Monitoring
-
 ### Overview
-This guide provides instructions to install and set up Grafana monitoring in a Kubernetes cluster using Helm. You will use the `k3s-monitoring` repository to deploy Prometheus and Grafana with pre-configured settings.
-
-### Prerequisites
-- A running Kubernetes cluster (e.g., k3s).
-- Helm installed and configured.
-
-### Installation Steps
-
-#### 1. Clone the `k3s-monitoring` Repository
-Begin by cloning the `k3s-monitoring` repository, which contains the necessary Helm values files and configurations:
-
-```bash
-git clone https://github.com/cablespaghetti/k3s-monitoring.git
-cd k3s-monitoring
-```
-
-#### 2. Add the Prometheus Helm Chart Repository
-Add the Prometheus community Helm chart repository to your local Helm installation:
-
-```bash
-helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
-```
-
-#### 3. Install Prometheus and Grafana
-Install Prometheus and Grafana using Helm. The `kube-prometheus-stack` Helm chart will deploy both Prometheus and Grafana with pre-configured settings provided in the `kube-prometheus-stack-values.yaml` file:
-
-```bash
-helm upgrade --install prometheus prometheus-community/kube-prometheus-stack --version 61.9.0 
-```
-
-#### 4. Edit the Grafana Service to Use a NodePort
-To access Grafana externally, you need to modify the Grafana service to use a NodePort:
-
-```bash
-kubectl edit service/prometheus-grafana
-```
-
-- Locate the `type` field and change its value from `ClusterIP` to `NodePort` and set     nodePort: 30007
-```bash
-   ports:
-  - name: http-web
-    port: 80
-    protocol: TCP
-    nodePort: 30007
-    targetPort: 3000
-  selector:
-    app.kubernetes.io/instance: prometheus
-    app.kubernetes.io/name: grafana
-  sessionAffinity: None
-  type: NodePort
-```
-- Save and exit the editor.
-
-#### 5. Access Grafana
+The installation and setup is done through terraform
+#### 1. Access Grafana
 Get node public IP:
 kubectl get node
 Once the service type is set to NodePort, you can access the Grafana dashboard from your browser:
