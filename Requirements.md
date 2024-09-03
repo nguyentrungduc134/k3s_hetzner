@@ -45,6 +45,17 @@ This deployment involves setting up a K3S cluster for hosting an application, al
   - **MongoDB and Redis Backups:** Enabled with a cron job scheduled to run every 2 hours.
   - **Backup Retention:** Old backups are cleaned up after 2 days.
 
+### **f. Monitoring**
+
+- **Grafana Server:**
+  - Accessible at `NodeIP:3009`.
+  
+- **Monitoring Components:**
+  - **Cluster Resources:** Monitoring of CPU, memory, and storage usage across the cluster.
+  - **Application Monitoring:** Track application performance, including pod health and response times.
+  - **MongoDB Monitoring:** Monitor the health, performance, and storage utilization of MongoDB instances.
+  - **Redis Monitoring:** Monitor the health and performance of Redis pods, including key metrics for memory usage and response times.
+
 ---
 
 This README provides an overview of the key components and configuration details for deploying the application along with MongoDB and Redis on a K3S cluster. For detailed setup instructions and further customization, refer to the Terraform scripts and configuration files provided.
