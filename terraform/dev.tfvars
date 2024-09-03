@@ -1,6 +1,6 @@
-docker_username = 
-docker_password = 
+docker_username = "ducnt134"
+docker_password = "ducnt123$"
 master_nodes = 3
-nodes = 1
+nodes = 3
 min_nodes = 1
-max_nodes=5
+max_nodes = 3

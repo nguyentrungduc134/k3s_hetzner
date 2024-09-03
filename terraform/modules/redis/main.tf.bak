@@ -1,0 +1,9 @@
+resource "helm_release" "rediscluster" {
+  name       = "redis-cluster"
+  chart      = "redis-cluster"
+  timeout    = 600
+  repository = "https://charts.bitnami.com/bitnami"
+  values = [
+       file("${path.module}/values.yml")
+  ]
+}
