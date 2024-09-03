@@ -82,8 +82,6 @@ Before deploying the Kubernetes cluster, you need to create a MicroOS snapshot u
 
 2. **Plan and Apply**:
 
-Here's the updated section of your README file, including the `dev.tfvars` configuration:
-
 ---
 
 ## Dev Environment Variables
