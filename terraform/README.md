@@ -127,7 +127,7 @@ This setup ensures that your Kubernetes cluster is deployed with the appropriate
    Delete the first and last line of config.yaml
    Export config to use in command line
    ```bash
-   export KUBECONFIG=/home/rama/hcloud/terraform2/config.yaml
+   export KUBECONFIG=config.yaml
    ```
    Encode the key, copy it and put to repository secret KUBECONFIG
    ```bash
