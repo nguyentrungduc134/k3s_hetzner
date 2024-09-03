@@ -129,15 +129,6 @@ This setup ensures that your Kubernetes cluster is deployed with the appropriate
    ```bash
    export KUBECONFIG=/home/rama/hcloud/terraform2/config.yaml
    ```
-   Restart auto-scaler and metrics-server
-   ```bash
-   kubectl rollout restart deployment/cluster-autoscaler -n kube-system
-   kubectl rollout restart deployment/metrics-server -n kube-system
-   ```
-   Deploy your application, replace image regsitry with your docker repgstry
-   ```bash
-   kubectl apply -f deployment.yaml
-   ```
    Encode the key, copy it and put to repository secret KUBECONFIG
    ```bash
    cat config.yaml | base64
