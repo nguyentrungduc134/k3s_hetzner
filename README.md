@@ -17,7 +17,7 @@ Once the service type is set to NodePort, you can access the Grafana dashboard f
 ![image](https://github.com/user-attachments/assets/875ca5f7-d87f-4434-9b0d-297283d353d2)
 
 ## 3. Steps to Test Pod Autoscaling
-
+   Autoscaling is setup in terraform/modules/app. Below is demonstration of Pod and node autoscaling
 ###  Set Up Horizontal Pod Autoscaling (HPA)
 Use the following command to create an HPA for your deployment:
 
