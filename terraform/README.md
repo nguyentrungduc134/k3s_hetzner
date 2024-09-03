@@ -91,10 +91,10 @@ Before deploying the Terraform configuration, ensure you have a `dev.tfvars` fil
 ```hcl
 docker_username = "your_docker_username"
 docker_password = "your_docker_password"
-master_nodes    = 3
-nodes           = 1
-min_nodes       = 1
-max_nodes       = 5
+master_nodes = 3
+nodes = 3
+min_nodes = 1
+max_nodes = 3
 ```
 
 - **`docker_username`**: Your Docker Hub username.
