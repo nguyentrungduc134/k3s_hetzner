@@ -42,8 +42,8 @@ This deployment involves setting up a K3S cluster for hosting an application, al
 ### **e. Storage and Backup**
 
 - **Backup Configuration:**
-  - **MongoDB and Redis Backups:** Enabled with a cron job scheduled to run every 2 hours.
-  - **Backup Retention:** Old backups are cleaned up after 2 days.
+  - **MongoDB and Redis Backups:** Enabled with a cron job scheduled to run every hour (increamental) and daily (full).
+  - **Backup Retention:** Old backups are cleaned up after 2 days, daily are cleaned up after 7 days.
 
 ### **f. Monitoring**
 
