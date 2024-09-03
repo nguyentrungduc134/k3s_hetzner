@@ -34,7 +34,7 @@ This deployment involves setting up a K3S cluster for hosting an application, al
 ### **d. Redis Deployment**
 
 - **High Availability Setup:**
-  - 6 Redis pods are deployed in a High Availability (HA) configuration.
+  - 6 Redis pods are deployed in a High Availability (HA) configuration. Each Redis have a LoadBalancers (6).
   
 - **Storage:**
   - Storage for Redis needs to be defined (this can be configured based on your requirements).
