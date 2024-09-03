@@ -170,7 +170,7 @@ module "app" {
 }
 ```
 
-- **Service Type:** The configuration inside the module will determine the type of service (NodePort or LoadBalancer).
+- **Service Type:** Use Ingress (default LB).
 - **Dependency:** The application deployment depends on the availability of the K3S cluster (`module.kube-hetzner`).
 
 ---
