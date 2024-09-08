@@ -2,12 +2,17 @@ locals {
   hcloud_token = var.hcloud_token
 }
 
+
 resource "local_file" "kubeconfig" {
   depends_on = [module.kube-hetzner]
   filename   = "config"
   content    = module.kube-hetzner.kubeconfig
 }
 
+resource "hcloud_network" "priv" {
+  name     = "k3s"
+  ip_range = "10.0.0.0/8"
+}
 module "kube-hetzner" {
   providers = {
     hcloud = hcloud
@@ -18,18 +23,20 @@ module "kube-hetzner" {
   source = "kube-hetzner/kube-hetzner/hcloud"
   version = "2.14.4"
   initial_k3s_channel = "v1.30"
+  network_region = "us-west" # change to `us-east` if location is ash
+  existing_network_id = [hcloud_network.priv.id]
+  network_ipv4_cidr="10.0.0.0/9"
   # * Your ssh public key
   ssh_public_key = file("credentials/id_rsa.pub")
   # * Your private key must be "ssh_private_key = null" when you want to use ssh-agent for a Yubikey-like device authentication or an SSH key-pair with a passphrase.
   ssh_private_key = file("credentials/id_rsa")
   # * For Hetzner locations see https://docs.hetzner.com/general/others/data-centers-and-connection/
-  network_region = "us-west" # change to `us-east` if location is ash
   ingress_controller = "haproxy"
  # use_control_plane_lb = true
   control_plane_nodepools = [
     {
       name        = "control-plane-hil",
-      server_type = "ccx13",
+      server_type = "cpx31",
       location    = "hil",
       labels      = [],
       taints      = [],
@@ -76,20 +83,6 @@ module "kube-hetzner" {
     },
 
 
-    {
-      name        = "agent-mongodb",
-      server_type = "ccx33",
-      location    = "hil",
-      labels      = [
-        "dedicated=mongodb"
-      ],
-       taints      = [
-          "dedicated=mongodb:NoSchedule"
-       ],
-      count       = var.nodes
-      # Enable automatic backups via Hetzner (default: false)
-      # backups = true
-    }
   ]
 
   # * LB location and type, the latter will depend on how much load you want it to handle, see https://www.hetzner.com/cloud/load-balancer
@@ -204,29 +197,6 @@ module "prometheus" {
 
 }
 
-module "mongodb" {
-  source = "./modules/mongodb/"
-  mongodb_config = {
-    volume_size                      = "30Gi"
-  }
-  depends_on = [module.kube-hetzner]
-}
-
-module "redis" {
-  source = "./modules/redis/"
-  redis_config = {
-    volume_size                      = "30Gi"
-  }
-
-  depends_on = [module.kube-hetzner]
-}
-
-
-module "app" {
-  source = "./modules/app/"
-  depends_on = [module.kube-hetzner]
-}
-
 
 
 provider "hcloud" {
@@ -248,6 +218,20 @@ terraform {
   }
 }
 
+
+resource "hcloud_network_subnet" "mongodb-subnet" {
+  type         = "cloud"
+  network_id   = hcloud_network.priv.id
+  network_zone = "us-west"
+  ip_range     = "10.128.0.0/24"
+}
+
+module "mongodb" {
+  source = "./modules/mongodb/"
+  network_id = hcloud_network.priv.id
+  subnet_id = hcloud_network_subnet.mongodb-subnet.id
+  depends_on = [resource.hcloud_network_subnet.mongodb-subnet]
+}
 
 
 output "kubeconfig" {
