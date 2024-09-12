@@ -310,7 +310,7 @@ tls:
   ##
 ## @param automountServiceAccountToken Mount Service Account token in pod
 ##
-automountServiceAccountToken: false
+automountServiceAccountToken: true
 ## @param hostAliases Add deployment host aliases
 ## https://kubernetes.io/docs/concepts/services-networking/add-entries-to-pod-etc-hosts-with-host-aliases/
 ##
@@ -650,7 +650,7 @@ livenessProbe:
 ##
 readinessProbe:
   enabled: true
-  initialDelaySeconds: 5
+  initialDelaySeconds: 15
   periodSeconds: 10
   timeoutSeconds: 10
   failureThreshold: 6
@@ -837,7 +837,7 @@ externalAccess:
   autoDiscovery:
     ## @param externalAccess.autoDiscovery.enabled Enable using an init container to auto-detect external IPs by querying the K8s API
     ##
-    enabled: false
+    enabled: true
     ## Bitnami Kubectl image
     ## ref: https://hub.docker.com/r/bitnami/kubectl/tags/
     ## @param externalAccess.autoDiscovery.image.registry [default: REGISTRY_NAME] Init container auto-discovery image registry
@@ -950,7 +950,7 @@ externalAccess:
   service:
     ## @param externalAccess.service.type Kubernetes Service type for external access. Allowed values: NodePort, LoadBalancer or ClusterIP
     ##
-    type: NodePort
+    type: LoadBalancer
     ## @param externalAccess.service.portName MongoDB(&reg;) port name used for external access when service type is LoadBalancer
     ##
     portName: "mongodb"
@@ -977,7 +977,8 @@ externalAccess:
     ## loadBalancerSourceRanges:
     ## - 10.10.10.0/24
     ##
-    loadBalancerSourceRanges: []
+    loadBalancerSourceRanges:
+       - 10.0.0.0/8
     ## @param externalAccess.service.allocateLoadBalancerNodePorts Whether to allocate node ports when service type is LoadBalancer
     ## ref: https://kubernetes.io/docs/concepts/services-networking/service/#load-balancer-nodeport-allocation
     ##
@@ -1385,8 +1386,8 @@ rbac:
   ## binding MongoDB(&reg;) ServiceAccount to a role
   ## that allows MongoDB(&reg;) pods querying the K8s API
   ## this needs to be set to 'true' to enable the mongo-labeler sidecar primary mongodb discovery
-  ##
-  create: false
+  
+  create: true
   ## @param rbac.rules Custom rules to create following the role specification
   ## The example below needs to be uncommented to use the 'mongo-labeler' sidecar for dynamic discovery of the primary mongodb pod:
   ## rules:
